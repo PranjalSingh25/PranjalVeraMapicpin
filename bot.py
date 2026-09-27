@@ -1614,6 +1614,17 @@ if _HAS_API:
         received_at: str
         turn_number: int
 
+    @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
+    async def root():
+        # Landing route so platform port-scanners (HEAD /) and browsers get 200, not 404.
+        return {
+            "service": "vera-magicpin-bot",
+            "status": "ok",
+            "uptime_seconds": int(time.time() - START),
+            "health": "/v1/healthz",
+            "metadata": "/v1/metadata",
+        }
+
     @app.get("/v1/healthz")
     async def healthz():
         counts = {"category": 0, "merchant": 0, "customer": 0, "trigger": 0}
