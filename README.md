@@ -31,3 +31,13 @@ hardcoded; set `$env:GEMINI_API_KEY` (bot) and it is also picked up by
 `bot.py` (`compose()` + 5 FastAPI endpoints), `conversation_handlers.py`
 (`respond()` multi-turn), `run_submission.py` (30-pair generator),
 `submission.jsonl` (T01–T30), `validate_submission.py` (taboo/%-off/routing).
+
+## Run & deploy
+
+```bash
+pip install -r requirements.txt
+copy .env.example .env   # fill GEMINI_API_KEY (optional)
+uvicorn bot:app --host 0.0.0.0 --port 8080
+```
+Render: New → Blueprint (uses `render.yaml`). Railway: deploy repo
+(`Procfile` auto-detected) → set `GEMINI_API_KEY`. Health: `/v1/healthz`.
